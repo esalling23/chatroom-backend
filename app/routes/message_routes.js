@@ -32,9 +32,9 @@ const router = express.Router()
 // INDEX
 // GET /messages
 router.get('/messages', requireToken, (req, res, next) => {
-  index
+  index(req)
     // respond with status 200 and JSON of the messages
-    .then(messages => res.status(200).json({ messages: messages }))
+    .then(messages => res.status(200).json({ messages }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
@@ -64,6 +64,7 @@ router.post('/messages', requireToken, (req, res, next) => {
     .then(async message => {
       message = await message.populate('owner').execPopulate()
       console.log(message)
+      message.editable = req.user._id.equals(message.owner)
       res.status(201).json({ message: message.toObject() })
     })
     // if an error occurs, pass it off to our error handler

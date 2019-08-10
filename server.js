@@ -77,12 +77,11 @@ const http = require('http').Server(app)
 // require the socket.io module
 const io = require('socket.io')(http)
 
-// const socket = io
 // create an event listener
-console.log(io)
 // To listen to messages
 io.on('connection', (socket) => {
-  // console.log('user connected', socket.id)
+  console.log('user connected', socket.id)
+  // socket.emit('connect', socket.id)
   // Created message
   socket.on('newMessage', (msg) => {
     console.log('user messaged!', msg)
@@ -92,7 +91,6 @@ io.on('connection', (socket) => {
     })
   })
 })
-
 // wire up the server to listen to our port
 http.listen(port, () => {
   console.log('connected to port: ' + port)
